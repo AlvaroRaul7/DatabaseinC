@@ -1,2 +1,2 @@
 src/prueba.c
-include/libhashtabprof.so
+lib/libhashtabprof.so
