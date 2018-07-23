@@ -12,10 +12,11 @@
 typedef struct conexionlogbTDA{
     char *ip;
     int puerto;              
+    int sockdf;         //socket de la conexion a la base de datos.
     int id_sesion;		//Inicialmente en 0. Usado por el proceso logdb para saber que proceso esta usando cual db.
-				//Al abrir la conexion, se llenar√° este campo con un numero aleatorio (Este numero lo genera el proceso logdb, y lo devuelve a la lib).             
+				//Al abrir la conexion, se llenar· este campo con un numero aleatorio (Este numero lo genera el proceso logdb, y lo devuelve a la lib).             
     char *nombredb;		//nombre de la db en uso. Inicialmente vacio hasta que se llame abrir_db(). Se llena SOLO si el proceso logdb pudo 
-				//Abrir exitosamente los archivos de la DB (log e indice).
+				//Abrir exitosamente los archivos de la DB (log e indice)
    
 } conexionlogdb;
 
