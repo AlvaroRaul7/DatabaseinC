@@ -30,9 +30,9 @@ int crear_db(conexionlogdb *conexion, nombre_db);			//Recibe un objeto conexion,
 int abrir_db(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto conexion. Con esto se informa al proceso logdb que abra la base de datos nombre_db.
 									//Retorna 1 si se pudo abrir, 0 en error (por ejemplo, si dicha db no existe).
 
-int put(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
+int put_val(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
 
-char *get(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
+char *get_val(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
 
 int eliminar(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
 
