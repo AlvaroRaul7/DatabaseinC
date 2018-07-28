@@ -32,9 +32,9 @@ int abrir_db(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto con
 
 int put(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
 
-char *get(conexionlogdb *conexion, clave) 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
+char *get(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
 
-int eliminar(conexionlogdb *conexion, clave)				//Elimina la clave. Devuelve 1 en exito, 0 en error.
+int eliminar(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
 
 void cerrar_db(conexionlogdb *conexion);				//Cierra la conexion y libera la estructura conexion.
 
