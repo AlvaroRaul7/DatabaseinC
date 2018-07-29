@@ -4,4 +4,5 @@
   2. Correccion de errores en archivo logdb.h
   3. Se agrego el objeto compartido libhashtabprof.so (NO USARLA EN SU IMPLEMENTACION).
   4. Se agrego reglas al Makefile
+  5. Se agrego archivo prueba.c
 

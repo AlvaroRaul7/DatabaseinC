@@ -30,6 +30,6 @@ El objetivo del proyecto es implementar la base de datos que implica:
 	2. La libreria libhashtab.so, que la usaran para el indice.
 	3. La libreria liblogdb.so, que permitira a los programas clientes acceder a los servicios ofrecidos por logdb.
 
-NO SE PERMITE MODIFICAR LOS ARCHIVOS include/hashtable.h ni include/logdb.h. . Es posible que el profesor actualice estos archivos durante la duración del proyecto.
+NO SE PERMITE MODIFICAR LOS ARCHIVOS include/hashtable.h ni include/logdb.h. Es posible que el profesor actualice estos archivos durante la duración del proyecto.
 
 
