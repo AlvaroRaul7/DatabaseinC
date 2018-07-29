@@ -18,9 +18,12 @@ En este proyecto base tienen los siguientes directorios
 	 i. hashtable.h
 	ii. logdb.h
 - src: todos los archivo .c iran aqui
+	i. El archivo prueba.c esta vacio. NO deben llenarlo. Este se reemplazara con el codigo del profesor 
+	al probar su proyecto 
 - obj: todos los archivos objetos deben ir a aqui
 - lib: librerias (liblogdb.so, libhashtab.so)
-- Makefile
+	i. La libreria libhashtabprof.so es la libreria hashtable del profesor. NO LA USEN. USEN SU PROPIA IMPLEMENTACION (libhashtab.so)
+- Makefile (No borrar las reglas adjuntas).
 
 El objetivo del proyecto es implementar la base de datos que implica:
 	1. El programa logdb, que manejara las solicitudes de los clientes y los archivos de la base de datos.
@@ -28,3 +31,5 @@ El objetivo del proyecto es implementar la base de datos que implica:
 	3. La libreria liblogdb.so, que permitira a los programas clientes acceder a los servicios ofrecidos por logdb.
 
 NO SE PERMITE MODIFICAR LOS ARCHIVOS include/hashtable.h ni include/logdb.h. . Es posible que el profesor actualice estos archivos durante la duración del proyecto.
+
+

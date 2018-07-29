@@ -1,0 +1,7 @@
+- 2018-07-28
+
+  1. Cambio de nombres de funciones put y get para eviar conflictos con hashtable.h
+  2. Correccion de errores en archivo logdb.h
+  3. Se agrego el objeto compartido libhashtabprof.so (NO USARLA EN SU IMPLEMENTACION).
+  4. Se agrego reglas al Makefile
+
