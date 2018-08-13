@@ -1,0 +1,8 @@
+- 12/Agosto/2018
+
+  1. Arreglos en el makefile para compilar los .c
+  2. Creacion de src/creardb.c
+  3. Creacion de src/testing.c para manejar pruebas internas
+  4. Creacion de src/put.c 
+  
+

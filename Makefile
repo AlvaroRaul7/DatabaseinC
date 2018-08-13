@@ -15,14 +15,17 @@
 all: prueba
 
 
-prueba: prueba.o logdb.so
-	gcc obj/prueba.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
+prueba: testing.o logdb.so 
+	gcc obj/testing.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
 
 prueba.o: src/prueba.c
 	gcc -Wall -Iinclude/ -c src/prueba.c -o obj/prueba.o
 
-logdb.so: src/logdb.c
-	gcc -Wall -fPIC -shared -Iinclude/ <archivos .c de libreria liblogdb.so> -o lib/liblogdb.so
+testing.o: src/testing.c
+	gcc -Wall -Iinclude/ -c src/testing.c -o obj/testing.o
+
+logdb.so: src/creardb.c src/put.c
+	gcc -Wall -fPIC -shared -Iinclude/ src/creardb.c src/put.c  -o lib/liblogdb.so
 
 
 .PHONY: clean
