@@ -5,7 +5,8 @@
 #include <error.h>
 #include <stdio.h>
 #include <string.h>
-
+#define LINE_SIZE 256
+#define CONTROL_ARRAY_SIZE 2
 
 
 void reemplazarCarater(char *str, char viejo, char nuevo){
@@ -19,17 +20,13 @@ void reemplazarCarater(char *str, char viejo, char nuevo){
 	}
 }
 void llenarTabla(hashtable *tabla, char *archivo){
-
 	FILE *file = fopen(archivo, "r");
-
 	int i = 0;
 	int block_multiple = 2;
-
 	char buf[LINE_SIZE] = {0};
 	if(file != NULL){
 		//printf("Empezamos a leer el archivo...\n");
 		while(fgets(buf, LINE_SIZE, file) != NULL){
-
 			if(i != 0 && i % CONTROL_ARRAY_SIZE == 0){
 #ifdef DEBUG
 				printf("Incrementando tamano de arreglo de control...\n");
@@ -38,15 +35,10 @@ void llenarTabla(hashtable *tabla, char *archivo){
 				valores_arr = realloc(valores_arr, sizeof(char *) * CONTROL_ARRAY_SIZE * block_multiple);
 				block_multiple++;
 			}
-
 			reemplazarCarater(buf,'\n', 0);
-
 			//split de 
 			char *clave = strtok(buf,":");
 			char *valor = strtok(NULL,":");
-
-
-
 			//Llemanos la tabla
 			put(tabla, strdup(clave), strdup(valor));
 			//Despues de procesar la linea, borramos buffer
