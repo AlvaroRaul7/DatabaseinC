@@ -51,7 +51,7 @@ void llenarTabla(hashtable *tabla, char *archivo){
 }
 
 
-char* get(conexionlogdb* conexion,char* clave, char* valor){
+char* get_db(conexionlogdb* conexion,char* clave, char* valor){
   hashtable *tabla=crearHashtable(10000);
   llenarTabla(tabla,conexion->nombredb);
   char* clave=get(tabla,clave);
