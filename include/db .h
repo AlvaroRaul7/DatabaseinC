@@ -22,23 +22,19 @@ typedef struct conexionlogbTDA{
 
 //Interfaz
 
-conexionlogdb *conectar_db(char *ip, int puerto);			//Devuelve un objeto conexio, NULL si no se pudo abrir conexion.
 
-int crear_db(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto conexion, y crear la db con el nombre dado. Devuelve 1 en exito, 0 en error (por ejemplo,
-									//ya existe un base de datos con ese nombre, error de E/S, etc).
 
-int abrir_db(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto conexion. Con esto se informa al proceso logdb que abra la base de datos nombre_db.
-									//Retorna 1 si se pudo abrir, 0 en error (por ejemplo, si dicha db no existe).
+int creardb(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto conexion, y crear la db con el nombre dado. Devuelve 1 en exito, 0 en error (por ejemplo,
+													
+int put(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
 
-int put_val(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
-
-char *get_val(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
+char *get(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
 
 int eliminar(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
 
-void cerrar_db(conexionlogdb *conexion);				//Cierra la conexion y libera la estructura conexion.
-
 void compactar(conexionlogdb *conexion);				//Permite forzar la compactacion de la db.
 
+void llenarTabla(hashtable *tabla, char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
 
+void reemplazarCarater(char *str, char viejo, char nuevo); 
 #endif
