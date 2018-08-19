@@ -1,4 +1,4 @@
-#include "logdb.h"
+#include "db.h"
 #include <fcntl.h>
 #include <error.h>
 #include <stdlib.h>
@@ -6,9 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
-int crear_db(conexionlogdb *conexion, char *nombre_db);	
 
-int crear_db(conexionlogdb *conexion, char *nombre_db){
+int creardb(conexionlogdb *conexion, char *nombre_db){
     if(conexion==NULL){
         printf("Conexion no existente");
         return 0;
@@ -23,5 +22,6 @@ int crear_db(conexionlogdb *conexion, char *nombre_db){
     close(archivodb);
     
     return 1;
+    
 
 }
