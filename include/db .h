@@ -30,11 +30,11 @@ int put_db(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el ele
 
 char *get_db(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
 
-int eliminar(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
+int eliminardb(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
 
-void compactar(conexionlogdb *conexion);				//Permite forzar la compactacion de la db.
+void compactardb(conexionlogdb *conexion);				//Permite forzar la compactacion de la db.
 
-void llenarTabla(hashtable *tabla, char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
+void llenarHashTable(hashtable *tabla, char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
 
-void reemplazarCarater(char *str, char viejo, char nuevo); 
+void reemplazarCaracter(char *str, char viejo, char nuevo); 
 #endif

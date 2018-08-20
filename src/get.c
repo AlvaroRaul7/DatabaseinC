@@ -9,7 +9,7 @@
 #define CONTROL_ARRAY_SIZE 2
 
 
-void reemplazarCarater(char *str, char viejo, char nuevo){
+void reemplazarCaracter(char *str, char viejo, char nuevo){
 	//Funcion insegura...No usarla en la practica.
 	while(*str != 0){
 		if(*str == viejo){
@@ -19,7 +19,7 @@ void reemplazarCarater(char *str, char viejo, char nuevo){
 		str++;
 	}
 }
-void llenarTabla(hashtable *tabla, char *archivo){
+void llenarHashTable(hashtable *tabla, char *archivo){
 	FILE *file = fopen(archivo, "r");
 	int i = 0;
 	int block_multiple = 2;
@@ -35,7 +35,7 @@ void llenarTabla(hashtable *tabla, char *archivo){
 				valores_arr = realloc(valores_arr, sizeof(char *) * CONTROL_ARRAY_SIZE * block_multiple);
 				block_multiple++;
 			}
-			reemplazarCarater(buf,'\n', 0);
+			reemplazarCaracter(buf,'\n', 0);
 			//split de 
 			char *clave = strtok(buf,":");
 			char *valor = strtok(NULL,":");
@@ -53,7 +53,7 @@ void llenarTabla(hashtable *tabla, char *archivo){
 
 char* get_db(conexionlogdb* conexion,char* clave, char* valor){
   hashtable *tabla=crearHashtable(10000);
-  llenarTabla(tabla,conexion->nombredb);
+  llenarHashTable(tabla,conexion->nombredb);
   char* clave=get(tabla,clave);
   return clave;
 }

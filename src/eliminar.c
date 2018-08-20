@@ -7,9 +7,9 @@
 #include <string.h>
 
 
-int eliminar(conexionlogdb* conexion,char* clave){
-  hashtable *tabla=crearHashtable(10000);
-  llenarTabla(tabla,conexion->nombredb);
+int eliminardb(conexionlogdb* conexion,char* clave){
+  hashtable *tabla=crearHashtable(1000000);
+  llenarHashTable(tabla,conexion->nombredb);
   put(tabla,clave,"!@");
   return 1;
 
