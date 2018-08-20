@@ -12,8 +12,6 @@ all:  db
 #logdb.so: 
 #	gcc -Wall -fPIC -shared -Iinclude/   -o lib/liblogdb.so
 
-main:
-
 db: put.o get.o eliminar.o compactardb.o creardb.o testing.o
 	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/testing.o -lhashtab -L./lib -Wl,-rpath,./lib  -o bin/db
 
