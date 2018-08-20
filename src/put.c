@@ -19,8 +19,9 @@ int put_db(char* nombredb, char *clave, char *valor){
     if(bytes<0){
         return 0;
     }
+    
     return 1;
-  	close(fd);
+    close(fd);
 
 }
 

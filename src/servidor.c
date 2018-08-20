@@ -17,7 +17,7 @@
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
+#include <db.h>
 
 
 conexionlogdb *conectar_db(char *ip, int puerto){
@@ -51,14 +51,14 @@ conexionlogdb *conectar_db(char *ip, int puerto){
 }
 int crear_db(conexionlogdb *conexion, char *nombre_db){
 	
-	int arch;
-	arch = open(nombre_db, O_RDWR | O_CREAT);
-	if(arch < 0){
-		perror("Hubo error.");
+	int arch = creardb(nombre_db);
+	if(arch<0){
 		return 0;
 	}
-	return 1;
-
+	conexion.id_sesion=rand()%(100+1);
+	conexion.nombredb=nombre_db;
+	return arch;
+	
 }
 int abrir_db(conexionlogdb *conexion, char *nombre_db){
 
@@ -71,6 +71,51 @@ int abrir_db(conexionlogdb *conexion, char *nombre_db){
 	return 1;
 
 }
+int put_val(conexionlogdb *conexion, char *clave, char *valor){
+	
+	int put;
+	put = put_db(conexion.nombredb,clave,valor);
+	if{put==0){
+		printf("error al ingresar la informacion");
+		return 0;
+	}
+	else{
+		printf("se ha ingresado la informacion con exito");
+		return 1;
+	}
+}
 
+char *get_val(conexionlogdb *conexion, char *clave){
+	
+	char *valor=get_db(conexion.nombredb,clave);
+	return valor;
+}
+
+int eliminar(conexionlogdb *conexion, char *clave){
+	int elm=eliminardb(conexion.nombredb,clave);
+	if(elm!=1){
+		printf("no se pudo eliminar");
+	}
+	return 1;
+}
+void cerrar_db(conexionlogdb *conexion){
+
+
+}
+void compactar(conexionlogdb *conexion){
+	
+	compactardb(conexion.nombredb);
+}
+	
+	
+
+
+
+
+
+
+
+
+	
 
 
