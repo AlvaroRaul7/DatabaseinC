@@ -5,12 +5,11 @@
 #include <error.h>
 #include <stdio.h>
 #include <string.h>
-hashtable *crearHashTable(int numeroBuckets);
 
-int eliminardb(conexionlogdb* conexion,char* clave){
-  hashtable *tabla=crearHashTable(1000000);
-  llenarHashTable(tabla,conexion->nombredb);
+int eliminardb(char* nombredb,char* clave){
+  hashtable* tabla=llenarHashTable(nombredb);
   put(tabla,clave,"!@");
+  put_db(nombredb,clave,"!@");
   return 1;
 
 }

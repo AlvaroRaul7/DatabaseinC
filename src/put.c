@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 
-int put_db(conexionlogdb *conexion, char *clave, char *valor){
-    int fd = open(conexion->nombredb, O_RDWR);
-	lseek(fd,0,SEEK_END);
+int put_db(char* nombredb, char *clave, char *valor){
+    int fd = open(nombredb, O_RDWR|O_APPEND);
+	//lseek(fd,0,SEEK_END);
   	char buf[100];
 	strcpy(buf,clave);
   	strcat(buf, ":");

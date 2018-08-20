@@ -7,37 +7,25 @@
 #include <string.h>
 
 
-void compactardb(conexionlogdb *conexion){
-	hashtable *tablacompactada=crearHashTable(1000000);
-	llenarHashTable(tablacompactada,conexion->nombredb);
+void compactardb(char* nombredb){
+	hashtable *tablacompactada=llenarHashTable(nombredb);
+	printf("%d\n",tablacompactada->elementos);
 	int cantclave=0;
-
 	int cantvalores=0;
-	char** arrclave=claves(tablacompactada,&cantclave);
+	char** arrclaves=claves(tablacompactada,&cantclave);
 	char** arrvalores=(char** )valores(tablacompactada,&cantvalores);
-	char bufnombre[100];
-	strcat(bufnombre,conexion->nombredb);
-	strcat(bufnombre,"compactado");
-	int dbcompactado=open(bufnombre,O_CREAT|O_RDWR);
-    if(dbcompactado<0){
-        printf("Error de E/S al crear el archivo compactado");
-        
-    }
-	for(int i=0;i<cantclave;i++){
-		for(int j=0;j<cantvalores;j++){
-			char buf[100];
-			lseek(dbcompactado,0,SEEK_END);
-			strcat(buf,arrclave[i]);
-			strcat(buf,":");
-			strcat(buf,arrvalores[j]);
-  			int bytes=write(dbcompactado,buf,strlen(buf));
-			memset(buf,0,100);
-   			 if(bytes<0){
-       			 printf("No se pudo compactar la base de datos");
-    			}
-		}
+
+	int d=creardb("compactado");
+	if(d==1){
+		printf("Archivo para compactar creado\n");
 	}
-	close(dbcompactado);
+	int i=0;
+	for(;i<cantclave;i++){
+			int valor=put_db("compactado",arrclaves[i],arrvalores[i]);
+			valor=valor+0;
+		
+	}
+	
 }
 
 

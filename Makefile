@@ -13,7 +13,7 @@ all:  db
 #	gcc -Wall -fPIC -shared -Iinclude/   -o lib/liblogdb.so
 
 db: put.o get.o eliminar.o compactardb.o creardb.o testing.o
-	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/testing.o -lhashtab -L./lib -Wl,-rpath,./lib  -o bin/db
+	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/testing.o -lhashtabprof -L./lib -Wl,-rpath,./lib  -o bin/db
 
 put.o: src/put.c
 	gcc -Wall -g -c src/put.c -I include/ -o obj/put.o

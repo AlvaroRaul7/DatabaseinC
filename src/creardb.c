@@ -8,14 +8,8 @@
 #include <string.h>
 
 
-int creardb(conexionlogdb *conexion, char *nombre_db){
-    if(conexion==NULL){
-        printf("Conexion no existente");
-        return 0;
-    }
-    
-    int archivodb=open(nombre_db,O_CREAT|O_RDWR);
-    conexion->nombredb=nombre_db;
+int creardb(char *nombre_db){
+    int archivodb=open(nombre_db,O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
     if(archivodb<0){
         printf("Error de E/S");
         return 0;

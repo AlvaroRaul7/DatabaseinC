@@ -5,8 +5,7 @@
 #include <error.h>
 #include <stdio.h>
 #include <string.h>
-#define LINE_SIZE 256
-#define CONTROL_ARRAY_SIZE 2
+
 
 hashtable *crearHashTable(int numeroBuckets);
 
@@ -20,47 +19,26 @@ void reemplazarCaracter(char *str, char viejo, char nuevo){
 		str++;
 	}
 }
-void llenarHashTable(hashtable *tabla, char *archivo){
+hashtable* llenarHashTable(char *archivo){
+	 hashtable *tabla=crearHashTable(100000);
 	FILE *file = fopen(archivo, "r");
-	int i = 0;
-	int block_multiple = 2;
-	char buf[LINE_SIZE] = {0};
-	char** claves_arr;
-	char** valores_arr;
+	char buf[300] = {0};
 	if(file != NULL){
-		//printf("Empezamos a leer el archivo...\n");
-		while(fgets(buf, LINE_SIZE, file) != NULL){
-			if(i != 0 && i % CONTROL_ARRAY_SIZE == 0){
-#ifdef DEBUG
-				printf("Incrementando tamano de arreglo de control...\n");
-#endif
-				claves_arr = realloc(claves_arr, sizeof(char *) * CONTROL_ARRAY_SIZE * block_multiple);
-				valores_arr = realloc(valores_arr, sizeof(char *) * CONTROL_ARRAY_SIZE * block_multiple);
-				block_multiple++;
-			}
+		while(fgets(buf, 300, file) != NULL){
 			reemplazarCaracter(buf,'\n', 0);
-			//split de 
 			char *clave = strtok(buf,":");
 			char *valor = strtok(NULL,":");
-			//Llemanos la tabla
 			put(tabla, strdup(clave), strdup(valor));
 			//Despues de procesar la linea, borramos buffer
-			memset(buf,0, LINE_SIZE);
-			i++;
+			memset(buf,0, 300);	
 		}
-
-
 		}
+    return tabla;
 }
 
 
-char* get_db(conexionlogdb* conexion,char* clave){
-  hashtable *tabla=crearHashTable(10000);
-  llenarHashTable(tabla,conexion->nombredb);
-  char* valor=get(tabla,clave);
-  if(valor!=NULL){
-	  return valor;
-  }
-  char* msj="La clave a buscar no existe";
-  return msj;
+char* get_db(char *nombredb,char* clave){
+  hashtable *tabla=llenarHashTable(nombredb);
+  char* valor=(char* ) get(tabla,clave);
+  return valor;
 }

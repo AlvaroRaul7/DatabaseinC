@@ -24,17 +24,17 @@ typedef struct conexionlogbTDA{
 
 
 
-int creardb(conexionlogdb *conexion, char *nombre_db);			//Recibe un objeto conexion, y crear la db con el nombre dado. Devuelve 1 en exito, 0 en error (por ejemplo,
+int creardb(char *nombre_db);			//Recibe un objeto conexion, y crear la db con el nombre dado. Devuelve 1 en exito, 0 en error (por ejemplo,
 													
-int put_db(conexionlogdb *conexion, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
+int put_db(char *nombredb, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
 
-char *get_db(conexionlogdb *conexion, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
+char *get_db(char* nombredb, char *clave); 				//devuelve el valor asociado a clave (si existe). Devuelve NULL si la clave no existe.
 
-int eliminardb(conexionlogdb *conexion, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
+int eliminardb(char* nombredb, char *clave);				//Elimina la clave. Devuelve 1 en exito, 0 en error.
 
-void compactardb(conexionlogdb *conexion);				//Permite forzar la compactacion de la db.
+void compactardb(char* nombredb);				//Permite forzar la compactacion de la db.
 
-void llenarHashTable(hashtable *tabla, char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
+hashtable* llenarHashTable(char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
 
 void reemplazarCaracter(char *str, char viejo, char nuevo); 
 #endif
