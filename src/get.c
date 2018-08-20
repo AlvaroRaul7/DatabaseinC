@@ -51,9 +51,12 @@ void llenarHashTable(hashtable *tabla, char *archivo){
 }
 
 
-char* get_db(conexionlogdb* conexion,char* clave, char* valor){
+char* get_db(conexionlogdb* conexion,char* clave){
   hashtable *tabla=crearHashtable(10000);
   llenarHashTable(tabla,conexion->nombredb);
-  char* clave=get(tabla,clave);
-  return clave;
+  char* valor=get(tabla,clave);
+  if(valor!=NULL){
+	  return valor;
+  }
+  return "La clave a buscar no existe";
 }
