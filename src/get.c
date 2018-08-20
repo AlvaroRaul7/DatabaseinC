@@ -8,6 +8,7 @@
 #define LINE_SIZE 256
 #define CONTROL_ARRAY_SIZE 2
 
+hashtable *crearHashTable(int numeroBuckets);
 
 void reemplazarCaracter(char *str, char viejo, char nuevo){
 	//Funcion insegura...No usarla en la practica.
@@ -24,6 +25,8 @@ void llenarHashTable(hashtable *tabla, char *archivo){
 	int i = 0;
 	int block_multiple = 2;
 	char buf[LINE_SIZE] = {0};
+	char** claves_arr;
+	char** valores_arr;
 	if(file != NULL){
 		//printf("Empezamos a leer el archivo...\n");
 		while(fgets(buf, LINE_SIZE, file) != NULL){
@@ -52,11 +55,12 @@ void llenarHashTable(hashtable *tabla, char *archivo){
 
 
 char* get_db(conexionlogdb* conexion,char* clave){
-  hashtable *tabla=crearHashtable(10000);
+  hashtable *tabla=crearHashTable(10000);
   llenarHashTable(tabla,conexion->nombredb);
   char* valor=get(tabla,clave);
   if(valor!=NULL){
 	  return valor;
   }
-  return "La clave a buscar no existe";
+  char* msj="La clave a buscar no existe";
+  return msj;
 }

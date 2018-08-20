@@ -23,7 +23,6 @@ typedef struct hashtableTDA{
     objeto **buckets;           //Arreglo de buckets (arreglo de punteros a objetos)
 } hashtable;
 
-
 //Funciones
 hashtable *crearHashTable(int numeroBuckets);
 

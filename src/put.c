@@ -1,10 +1,11 @@
 #include "hashtable.h"
+#include "db.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <error.h>
 #include <stdio.h>
 #include <string.h>
-#include "db.h"
+
 int put_db(conexionlogdb *conexion, char *clave, char *valor){
     int fd = open(conexion->nombredb, O_RDWR);
 	lseek(fd,0,SEEK_END);

@@ -1,3 +1,4 @@
+#include "hashtable.h"
 #include "db.h"
 #include <fcntl.h>
 #include <error.h>
