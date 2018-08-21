@@ -56,7 +56,6 @@ int crear_db(conexionlogdb *conexion, char *nombre_db){
 		return 0;
 	}
 	conexion.id_sesion=rand()%(100+1);
-	conexion.nombredb=nombre_db;
 	return arch;
 	
 }
@@ -68,12 +67,17 @@ int abrir_db(conexionlogdb *conexion, char *nombre_db){
 		perror("Hubo error.");
 		return 0;
 	}
+	conexion.nombredb=nombre_db;
 	return 1;
 
 }
 int put_val(conexionlogdb *conexion, char *clave, char *valor){
 	
 	int put;
+	if(conexion.nombredb==NULL){
+		printf("No ha abierto ninguna base de datos");
+		return 0;
+	}
 	put = put_db(conexion.nombredb,clave,valor);
 	if{put==0){
 		printf("error al ingresar la informacion");
@@ -86,7 +90,11 @@ int put_val(conexionlogdb *conexion, char *clave, char *valor){
 }
 
 char *get_val(conexionlogdb *conexion, char *clave){
-	
+
+	if(conexion.nombredb==NULL){
+		printf("No ha abierto ninguna base de datos");
+		return NULL;
+	}
 	char *valor=get_db(conexion.nombredb,clave);
 	return valor;
 }
