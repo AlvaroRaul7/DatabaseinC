@@ -11,7 +11,7 @@
 int creardb(char *nombre_db){
     int archivodb=open(nombre_db,O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
     if(archivodb<0){
-        printf("Error de E/S");
+        
         return 0;
     }
     close(archivodb);
