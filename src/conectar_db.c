@@ -28,14 +28,13 @@ int connect_retry( int domain, int type, int protocol, 	const struct sockaddr *a
 		if (( fd = socket( domain, type, protocol)) < 0){
 			return(-1); 
 
-		if (connect( fd, addr, alen) == 0) {
+		}if (connect( fd, addr, alen) == 0) {
 			printf("conexion aceptada"); 
 			return(fd); 
 		} 
 		close(fd); 				
 
 		if (numsec <= 64/2)
-
 			sleep( numsec); 
 	} 
 	return(-1); 
@@ -45,10 +44,7 @@ int connect_retry( int domain, int type, int protocol, 	const struct sockaddr *a
 
 conexionlogdb *conectar_db(char *ip, int puerto){
 	
-	int fd;
-	int numsec;
-	int conec;
-
+	int sockfd=0;
 	struct sockaddr_in direccion_cliente;
 	memset(&direccion_cliente, 0, sizeof(direccion_cliente));
 	
@@ -68,6 +64,5 @@ conexionlogdb *conectar_db(char *ip, int puerto){
 	conexion.puerto=puerto;
 	conexion.sockdf=sockfd;
 	conexion.id_sesion=rand()%1000;
-
-	return conexion;
+	return &conexion;
 }

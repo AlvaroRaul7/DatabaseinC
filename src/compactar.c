@@ -24,9 +24,9 @@ void compactar(conexionlogdb *conexion){
 	char buf[1000] =  { 0 };
 	memset(buf,0,1000);
 
-	if(conexion.nombredb==NULL){
+	if(conexion->nombredb==NULL){
 		printf("No ha abierto la base de datos");
-		return 0;
+		return;
 	}
 	
 	char *cadena;
@@ -34,29 +34,29 @@ void compactar(conexionlogdb *conexion){
 	
 	strcpy(cadena,"compactar");
 	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
+	strcat(cadena,conexion->nombredb);
 	
 	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
 		printf("Error de conexion con el servidor");
-		return 0;
+		return;
 	}
-	int m=recv(conexion.sockdf,buf,1000,0);
+	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
 		printf("Error de conexion con el servidor");
-		return 0;
+		return;
 	}
 	
 	free(cadena);	
 	
 	if(strcmp(buf,"exito")==0){
 		printf("compactacion completada exitosamente");
-		return 1;
+		
 	}
 	else{
 		printf("Error: no se pudo compactar la base de datos");
-		return 0;
+		
 	}
 }
 	

@@ -31,9 +31,16 @@ int crear_db(conexionlogdb *conexion, char *nombre_db){
 	strcat(cadena,",");
 	strcat(cadena,nombre_db);
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
-	
+	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion->sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	free(cadena);
 
 	if(strcmp(buf,"exito")==0){

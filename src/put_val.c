@@ -32,23 +32,23 @@ int put_val(conexionlogdb *conexion, char *clave, char *valor){
 	
 	strcpy(cadena,"put");
 	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
+	strcat(cadena,conexion->nombredb);
 	strcat(cadena,",");
 	strcat(cadena,clave);
 	strcat(cadena,",");
 	strcat(cadena,valor);		
 	
-	if(conexion.nombredb==NULL){
+	if(conexion->nombredb==NULL){
 		printf("No ha abierto ninguna base de datos");
 		return 0;
 	}
 	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
 		printf("Error de conexion con el servidor");
 		return 0;
 	}
-	int m=recv(conexion.sockdf,buf,1000,0);
+	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
 		printf("Error de conexion con el servidor");
 		return 0;

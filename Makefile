@@ -4,17 +4,16 @@
 #El archivo prueba.c esta vacio. NO deben llenarlo. Este se reemplazara con el codigo del profesor
 #al probar su proyecto
 
-all:  logdb 
+all:  prueba logdb 
 
-#prueba: prueba.o logdb.so
-#	gcc obj/prueba.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
+prueba: prueba.o logdb.so
+	gcc obj/prueba.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
 
-#prueba.o: src/prueba.c
-#	gcc -Wall -I include/ -c src/prueba.c -o obj/prueba.o
+prueba.o: src/prueba.c
+	gcc -Wall -I include/ -c src/prueba.c -o obj/prueba.o
 
-#logdb.so: src/logdb.c
-#	gcc -Wall -fPIC -shared -I include/ <archivos .c de libreria liblogdb.so> -o lib/liblogdb.so
-
+logdb.so: src/conectar_db.c src/crear_db.c src/abrir_db.c src/put_val.c src/get_val.c src/eliminar_.c src/cerrar_db.c src/compactar.c
+	gcc -Wall -fPIC -shared -I include/ src/conectar_db.c src/crear_db.c src/abrir_db.c src/put_val.c src/get_val.c src/eliminar_.c src/cerrar_db.c src/compactar.c -o lib/liblogdb.so
 
 logdb: put.o get.o eliminar.o compactardb.o creardb.o logdb.o
 	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/logdb.o -lhashtabprof -L./lib -Wl,-rpath,./lib  -o bin/logdb
