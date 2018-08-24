@@ -6,7 +6,7 @@
 
 all:  prueba logdb 
 
-prueba: prueba.o 
+prueba: prueba.o logdb.so
 	gcc obj/prueba.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
 
 prueba.o: src/prueba.c
