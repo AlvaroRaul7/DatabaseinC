@@ -4,340 +4,154 @@
 #include <stdlib.h>             /* for convenience */
 #include <stddef.h>             /* for offsetof */
 #include <string.h>             /* for convenience */
-#include <unistd.h>
-#include <error.h>             /* for convenience */
+#include <unistd.h>             /* for convenience */
 #include <signal.h>             /* for SIG_ERR */ 
 #include <netdb.h> 
 #include <errno.h> 
 #include <syslog.h> 
 #include <sys/socket.h> 
 #include <fcntl.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "logdb.h"
+#include "db.h"
 
-int connect_retry( int domain, int type, int protocol, 	const struct sockaddr *addr, socklen_t alen){
-	
-	int numsec, fd;
+int initserver(int type, const struct sockaddr *addr, socklen_t alen, int qlen){
 
-	for (numsec = 1; numsec <= 64; numsec <<= 1) { 
-
-		if (( fd = socket( domain, type, protocol)) < 0){
-			return(-1); 
-
-		if (connect( fd, addr, alen) == 0) {
-			printf("conexion aceptada"); 
-			return(fd); 
-		} 
-		close(fd); 				
-
-		if (numsec <= 64/2)
-
-			sleep( numsec); 
-	} 
-	return(-1); 
-}
-
-
-
-conexionlogdb *conectar_db(char *ip, int puerto){
-	
 	int fd;
-	int numsec;
-	int conec;
+	int err = 0;
+	
+	if((fd = socket(addr->sa_family, type, 0)) < 0)
+		return -1;
+		
+	if(bind(fd, addr, alen) < 0)
+		goto errout;
+		
+	if(type == SOCK_STREAM || type == SOCK_SEQPACKET){
+		
+			if(listen(fd, qlen) < 0)
+				goto errout;
+	}
+	return fd;
+errout:
+	err = errno;
+	close(fd);
+	errno = err;
+	return (-1);
+}
 
-	struct sockaddr_in direccion_cliente;
-	memset(&direccion_cliente, 0, sizeof(direccion_cliente));
-	
-	conexionlogdb conexion;
-	memset(&conexion, 0, sizeof(conexion));	
-	
-	direccion_cliente.sin_family = AF_INET;		
-	direccion_cliente.sin_port = htons(puerto);		
-	direccion_cliente.sin_addr.s_addr = inet_addr(ip) ;	
-	
-	if (( sockfd = connect_retry( direccion_cliente.sin_family, SOCK_STREAM, 0, (struct sockaddr *)&direccion_cliente, sizeof(direccion_cliente))) < 0) { 
-		printf("falló conexión\n"); 
+int main( int argc, char *argv[]) { 
+	int sockfd;
+
+	if(argc == 1){
+		printf("Uso: ./servidor <numero de ip> <numero de puerto>\n");
 		exit(-1);
-	} 	
-	
-	conexion.ip=ip;
-	conexion.puerto=puerto;
-	conexion.sockdf=sockfd;
-	conexion.id_sesion=rand()%1000;
-
-	return conexion;
-}
-int crear_db(conexionlogdb *conexion, char *nombre_db){
-	
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"crear");
-	strcat(cadena,",");
-	strcat(cadena,nombre_db);
-	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
-	
-	free(cadena);
-
-	if(strcmp(buf,"exito")==0){
-		printf("se creo la base con exito");
-		return 1;
-	}
-	else{
-		printf("no se pudo crear la base de datos");
-		return 0;
-	}
-}
-int abrir_db(conexionlogdb *conexion, char *nombre_db){
-
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-	
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"abrir");
-	strcat(cadena,",");
-	strcat(cadena,nombre_db);	
-	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	int m=recv(conexion.sockdf,buf,1000,0);
-	if(m<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	
-	free(cadena);
-
-	if(strcmp(buf,"exito")==0){
-		printf("se abrio la base de datos con èxito");
-		conexion.nombredb=nombre_db;
-		return 1;
-	}
-	else{
-		printf("no se pudo abrir la base de datos");
-		return 0;
-	}
-}
-int put_val(conexionlogdb *conexion, char *clave, char *valor){
-
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-	
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"put");
-	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
-	strcat(cadena,",");
-	strcat(cadena,clave);
-	strcat(cadena,",");
-	strcat(cadena,valor);		
-	
-	if(conexion.nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
-		return 0;
-	}
-	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	int m=recv(conexion.sockdf,buf,1000,0);
-	if(m<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	
-	free(cadena);
-	
-	if(strcmp(buf,"exito")==0){
-		printf("se ingreso la informacion exitosamente");
-		return 1;
-	}
-	else{
-		printf("Error: no se pudo ingresar los datos");
-		return 0;
-	}
-}
-
-char *get_val(conexionlogdb *conexion, char *clave){
-	
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-	
-	if(conexion.nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
-		return NULL;
-	}
-	
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"get");
-	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
-	strcat(cadena,",");
-	strcat(cadena,clave);	
-	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	int m=recv(conexion.sockdf,buf,1000,0);
-	if(m<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	
-	free(cadena);	
-	
-	if(strcmp(buf,"error")==0){
-		printf("no existe la clave");
-		return NULL;
-	}
-	else{
-		return &buf;
-	}
-}
-
-int eliminar(conexionlogdb *conexion, char *clave){
-
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-
-	if(conexion.nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
-		return 0;
-	}
-	
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"eliminar");
-	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
-	strcat(cadena,",");
-	strcat(cadena,clave);	
-	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	int m=recv(conexion.sockdf,buf,1000,0);
-	if(m<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	
-	free(cadena);	
-	
-	if(strcmp(buf,"exito")==0){
-		printf("se elimino la informacion exitosamente");
-		return 1;
-	}
-	else{
-		printf("Error: no existe la clave");
-		return 0;
 	}
 
-}
+	if(argc < 3){
 
-void cerrar_db(conexionlogdb *conexion){
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
+		printf( "por favor especificar un numero de ip o de puerto\n");
+	}
+	int puerto = atoi(argv[2]);
+	char *ip=argv[1];
+	printf("La ip es : %s\n",ip);
+	printf("El socket a conectarse es: %d\n",puerto);
+	struct sockaddr_in direccion_servidor;
+
+	memset(&direccion_servidor, 0, sizeof(direccion_servidor));	//ponemos en 0 la estructura direccion_servidor
+
+	//llenamos los campos
+	direccion_servidor.sin_family = AF_INET;		//IPv4
+	direccion_servidor.sin_port = htons(puerto);		//Convertimos el numero de puerto al endianness de la red
+	direccion_servidor.sin_addr.s_addr = inet_addr(ip) ;	//Nos vinculamos a la interface localhost o podemos usar INADDR_ANY para ligarnos A TODAS las interfaces
+
 	
-	strcpy(cadena,"cerrar");
-	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
 
-	if(conexion.sockdf==NULL){
-		printf("No ha abierto alguna conexion");
-		return 0;
-	}
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	free(cadena);
-	int k=close(conexion.sockdf);
-	if(k<0){
-		printf("error al cerrar la conexion");
-	}
-	else{
-		free(conexion);
-		printf("la conexion se ha cerrado")
-	}
+	//inicalizamos servidor (AF_INET + SOCK_STREAM = TCP)
+	if( (sockfd = initserver(SOCK_STREAM, (struct sockaddr *)&direccion_servidor, sizeof(direccion_servidor), 1000)) < 0){	//Hasta 1000 solicitudes en cola 
+		printf("Error al inicializar el servidor\n");	
+	}	
+	int clfd=-1;
+	char data[1000]={0};
+	char *respuesta;
+	respuesta=(char*)malloc(1000*(sizeof(char)));
+	while(1){
+		if(clfd==-1){
+			int clfd = accept(sockfd, NULL, NULL);
+		}
+
+		int n=recv( clfd, data, 1000, 0);
+		if(n==0){
+			close(clfd);
+			clfd=-1;
+			continue;
+		}
+		else{
+	
+
+			char *string=strtok(data,",");
+
+			if(strcmp(string[0],"crear")==0){
+				int cod=creardb(string[1]);
+				if(cod<1){
+					strcpy(respuesta,"Error");
+				}else{
+					strcpy(respuesta,"exito");
+				}					
+			}
+			else if(strcmp(string[0],"abrir")==0){
+				int cod=1;
+				//int cod=abrirdb(string[1]);
+				if(cod<1){
+					strcpy(respuesta,"Error");
+				}else{
+					strcpy(respuesta,"exito");
+				}	
+					
+			}
+			else if(strcmp(string[0],"put")==0){
+				int cod=put_db(string[1],string[2],string[3]);
+				if(cod<1){
+					strcpy(respuesta,"Error");
+				}else{
+					strcpy(respuesta,"exito");
+				}	
+					
+			}
+			else if(strcmp(string[0],"get")==0){
+				char* cod=get_db(string[1],string[2]);
+				if(cod==NULL){
+					strcpy(respuesta,"Error");
+				}else{
+					strcpy(respuesta,*cod);
+				}	
+							
+			}
+			else if(strcmp(string[0],"eliminar")==0){
+				int cod=eliminardb(string[1],string[2]);
+
+				if(cod<1){
+					strcpy(respuesta,"Error");
+				}else{
+					strcpy(respuesta,"exito");
+				}	
+					
+			}
+			else if(strcmp(string[0],"compactar")==0){
+				compactardb(string[1]);
+				strcpy(respuesta,"exito");	
+			}
+			else{
+				printf("Error: no ingresó a ninguna opcion");
+				return 0;
+			}
+			send(clfd,respuesta, 1000, 0); 
+		}
+	}		
 	
 }
-void compactar(conexionlogdb *conexion){
-	
-	char buf[1000] =  { 0 };
-	memset(buf,0,1000);
-
-	if(conexion.nombredb==NULL){
-		printf("No ha abierto la base de datos");
-		return 0;
-	}
-	
-	char *cadena;
-	cadena=(char*)malloc(1000*(sizeof(char)));
-	
-	strcpy(cadena,"compactar");
-	strcat(cadena,",");
-	strcat(cadena,conexion.nombre_db);
-	
-	
-	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
-	if(n<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	int m=recv(conexion.sockdf,buf,1000,0);
-	if(m<0){
-		printf("Error de conexion con el servidor");
-		return 0;
-	}
-	
-	free(cadena);	
-	
-	if(strcmp(buf,"exito")==0){
-		printf("compactacion completada exitosamente");
-		return 1;
-	}
-	else{
-		printf("Error: no se pudo compactar la base de datos");
-		return 0;
-	}
-}
-	
-	
-
-
-
-
-
-
-
-
-	
 
 
