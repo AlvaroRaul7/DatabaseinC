@@ -56,6 +56,7 @@ char *get_val(conexionlogdb *conexion, char *clave){
 		return NULL;
 	}
 	else{
+		printf("el valor asociado a la clave %s es: %s\n",clave,buf);
 		return (char *)buf;
 	}
 }

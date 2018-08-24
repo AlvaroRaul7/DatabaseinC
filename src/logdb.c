@@ -131,7 +131,7 @@ int main( int argc, char *argv[]) {
 			else if(strcmp(solicitud,"get")==0){
 				char* cod=get_db(arg1,arg2);
 				if(cod==NULL){
-					strcpy(respuesta,"Error");
+					strcpy(respuesta,"Error: no existe la clave");
 				}else{
 					strcpy(respuesta,(char*)cod);
 				}	

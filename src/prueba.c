@@ -12,6 +12,13 @@ int main(int argc, char** argv){
 	int puerto=4567;
 	conexionlogdb *conexion = conectar_db(ip,puerto);
 	crear_db(conexion,"sandia");
+	abrir_db(conexion,"sandia");
+	put_val(conexion,"fruta","sandia");
+	put_val(conexion,"comida","ceviche");
+	put_val(conexion,"Maria","Perez");
+	get_val(conexion,"fruta");
+	eliminar(conexion,"fruta");
+	get_val(conexion,"fruta");
 	return 0;
 }
 
