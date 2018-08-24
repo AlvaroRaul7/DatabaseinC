@@ -29,7 +29,7 @@ int connect_retry( int domain, int type, int protocol, 	const struct sockaddr *a
 			return(-1); 
 
 		}if (connect( fd, addr, alen) == 0) {
-			printf("conexion aceptada"); 
+			printf("conexion aceptada\n"); 
 			return(fd); 
 		} 
 		close(fd); 				
@@ -48,8 +48,9 @@ conexionlogdb *conectar_db(char *ip, int puerto){
 	struct sockaddr_in direccion_cliente;
 	memset(&direccion_cliente, 0, sizeof(direccion_cliente));
 	
-	conexionlogdb conexion;
-	memset(&conexion, 0, sizeof(conexion));	
+	conexionlogdb *conexion;
+	conexion=(conexionlogdb *)malloc(sizeof(conexion));
+		
 	
 	direccion_cliente.sin_family = AF_INET;		
 	direccion_cliente.sin_port = htons(puerto);		
@@ -60,9 +61,10 @@ conexionlogdb *conectar_db(char *ip, int puerto){
 		exit(-1);
 	} 	
 	
-	conexion.ip=ip;
-	conexion.puerto=puerto;
-	conexion.sockdf=sockfd;
-	conexion.id_sesion=rand()%1000;
-	return &conexion;
+	conexion->ip=ip;
+	conexion->puerto=puerto;
+	conexion->sockdf=sockfd;
+	conexion->id_sesion=rand()%1000;
+	
+	return conexion;
 }

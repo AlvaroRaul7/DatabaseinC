@@ -39,29 +39,29 @@ int put_val(conexionlogdb *conexion, char *clave, char *valor){
 	strcat(cadena,valor);		
 	
 	if(conexion->nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
+		printf("No ha abierto ninguna base de datos.\n");
 		return 0;
 	}
 	
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	
 	free(cadena);
 	
 	if(strcmp(buf,"exito")==0){
-		printf("se ingreso la informacion exitosamente");
+		printf("se ingreso la informacion exitosamente.\n");
 		return 1;
 	}
 	else{
-		printf("Error: no se pudo ingresar los datos");
+		printf("Error: no se pudo ingresar los datos.\n");
 		return 0;
 	}
 }

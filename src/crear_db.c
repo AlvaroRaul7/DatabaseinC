@@ -33,22 +33,22 @@ int crear_db(conexionlogdb *conexion, char *nombre_db){
 	
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	free(cadena);
 
 	if(strcmp(buf,"exito")==0){
-		printf("se creo la base con exito");
+		printf("se creo la base con exito.\n");
 		return 1;
 	}
 	else{
-		printf("no se pudo crear la base de datos");
+		printf("no se pudo crear la base de datos.\n");
 		return 0;
 	}
 }

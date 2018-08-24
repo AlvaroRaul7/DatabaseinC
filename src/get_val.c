@@ -23,10 +23,9 @@ char *get_val(conexionlogdb *conexion, char *clave){
 	
 	char *buf;
 	buf=(char*)malloc(1000*(sizeof(char)));
-	memset(buf,0,1000);
 	
 	if(conexion->nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
+		printf("No ha abierto ninguna base de datos.\n");
 		return NULL;
 	}
 	
@@ -41,19 +40,19 @@ char *get_val(conexionlogdb *conexion, char *clave){
 	
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	
 	free(cadena);	
 	
 	if(strcmp(buf,"error")==0){
-		printf("no existe la clave");
+		printf("no existe la clave.\n");
 		return NULL;
 	}
 	else{

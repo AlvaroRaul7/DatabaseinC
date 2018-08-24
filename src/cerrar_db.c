@@ -28,22 +28,22 @@ void cerrar_db(conexionlogdb *conexion){
 	strcat(cadena,conexion->nombredb);
 
 	if(conexion->sockdf==0){
-		printf("No ha abierto alguna conexion");
+		printf("No ha abierto alguna conexion.\n");
 		return;
 	}
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return;
 	}
 	free(cadena);
 	int k=close(conexion->sockdf);
 	if(k<0){
-		printf("error al cerrar la conexion");
+		printf("error al cerrar la conexion.\n");
 	}
 	else{
 		free(conexion);
-		printf("la conexion se ha cerrado");
+		printf("la conexion se ha cerrado.\n");
 	}
 	
 }

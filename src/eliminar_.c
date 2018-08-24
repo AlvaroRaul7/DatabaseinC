@@ -25,7 +25,7 @@ int eliminar(conexionlogdb *conexion, char *clave){
 	memset(buf,0,1000);
 
 	if(conexion->nombredb==NULL){
-		printf("No ha abierto ninguna base de datos");
+		printf("No ha abierto ninguna base de datos.\n");
 		return 0;
 	}
 	
@@ -40,23 +40,23 @@ int eliminar(conexionlogdb *conexion, char *clave){
 	
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	
 	free(cadena);	
 	
 	if(strcmp(buf,"exito")==0){
-		printf("se elimino la informacion exitosamente");
+		printf("se elimino la informacion exitosamente.\n");
 		return 1;
 	}
 	else{
-		printf("Error: no existe la clave");
+		printf("Error: no existe la clave.\n");
 		return 0;
 	}
 

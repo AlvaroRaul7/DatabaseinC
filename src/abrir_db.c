@@ -33,24 +33,24 @@ int abrir_db(conexionlogdb *conexion, char *nombre_db){
 	
 	int n=send(conexion->sockdf,cadena,strlen(cadena),0);
 	if(n<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	int m=recv(conexion->sockdf,buf,1000,0);
 	if(m<0){
-		printf("Error de conexion con el servidor");
+		printf("Error de conexion con el servidor.\n");
 		return 0;
 	}
 	
 	free(cadena);
 
 	if(strcmp(buf,"exito")==0){
-		printf("se abrio la base de datos con èxito");
+		printf("se abrio la base de datos con èxito.\n");
 		conexion->nombredb=nombre_db;
 		return 1;
 	}
 	else{
-		printf("no se pudo abrir la base de datos");
+		printf("no se pudo abrir la base de datos.\n");
 		return 0;
 	}
 }
