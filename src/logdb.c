@@ -17,7 +17,6 @@
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "db.h"
 #include "logdb.h"
 
 int connect_retry( int domain, int type, int protocol, 	const struct sockaddr *addr, socklen_t alen){
@@ -110,8 +109,16 @@ int abrir_db(conexionlogdb *conexion, char *nombre_db){
 	strcat(cadena,",");
 	strcat(cadena,nombre_db);	
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion.sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	
 	free(cadena);
 
@@ -146,8 +153,16 @@ int put_val(conexionlogdb *conexion, char *clave, char *valor){
 		return 0;
 	}
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion.sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	
 	free(cadena);
 	
@@ -180,8 +195,16 @@ char *get_val(conexionlogdb *conexion, char *clave){
 	strcat(cadena,",");
 	strcat(cadena,clave);	
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion.sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	
 	free(cadena);	
 	
@@ -213,8 +236,16 @@ int eliminar(conexionlogdb *conexion, char *clave){
 	strcat(cadena,",");
 	strcat(cadena,clave);	
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion.sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	
 	free(cadena);	
 	
@@ -230,15 +261,31 @@ int eliminar(conexionlogdb *conexion, char *clave){
 }
 
 void cerrar_db(conexionlogdb *conexion){
+	char *cadena;
+	cadena=(char*)malloc(1000*(sizeof(char)));
 	
+	strcpy(cadena,"cerrar");
+	strcat(cadena,",");
+	strcat(cadena,conexion.nombre_db);
+
 	if(conexion.sockdf==NULL){
 		printf("No ha abierto alguna conexion");
 		return 0;
 	}
-	close(conexion.sockdf);
-	free(conexion);
-	printf("la conexion se ha cerrado")
-	
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	free(cadena);
+	int k=close(conexion.sockdf);
+	if(k<0){
+		printf("error al cerrar la conexion");
+	}
+	else{
+		free(conexion);
+		printf("la conexion se ha cerrado")
+	}
 	
 }
 void compactar(conexionlogdb *conexion){
@@ -259,8 +306,16 @@ void compactar(conexionlogdb *conexion){
 	strcat(cadena,conexion.nombre_db);
 	
 	
-	send(conexion.sockdf,cadena,strlen(cadena),0);
-	recv(conexion.sockdf,buf,1000,0);
+	int n=send(conexion.sockdf,cadena,strlen(cadena),0);
+	if(n<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
+	int m=recv(conexion.sockdf,buf,1000,0);
+	if(m<0){
+		printf("Error de conexion con el servidor");
+		return 0;
+	}
 	
 	free(cadena);	
 	

@@ -4,16 +4,20 @@
 #El archivo prueba.c esta vacio. NO deben llenarlo. Este se reemplazara con el codigo del profesor
 #al probar su proyecto
 
-all:  db
+all:  prueba logdb 
 
-#prueba: testing.o 
-#	gcc obj/testing.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
+prueba: prueba.o logdb.so
+	gcc obj/prueba.o -lhashtabprof -llogdb -Llib/ -o bin/prueba
 
-#logdb.so: 
-#	gcc -Wall -fPIC -shared -Iinclude/   -o lib/liblogdb.so
+prueba.o: src/prueba.c
+	gcc -Wall -I include/ -c src/prueba.c -o obj/prueba.o
 
-db: put.o get.o eliminar.o compactardb.o creardb.o testing.o
-	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/testing.o -lhashtabprof -L./lib -Wl,-rpath,./lib  -o bin/db
+logdb.so: src/logdb.c
+	gcc -Wall -fPIC -shared -I include/ <archivos .c de libreria liblogdb.so> -o lib/liblogdb.so
+
+
+logdb: put.o get.o eliminar.o compactardb.o creardb.o logdb.o
+	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/servidor.o -lhashtabprof -L./lib -Wl,-rpath,./lib  -o bin/logdb
 
 put.o: src/put.c
 	gcc -Wall -g -c src/put.c -I include/ -o obj/put.o
@@ -30,8 +34,11 @@ compactardb.o: src/compactardb.c
 creardb.o: src/creardb.c
 	gcc -Wall -g -c src/creardb.c -I include/ -o obj/creardb.o
 
-testing.o: src/testing.c
-	gcc -Wall -g -c src/testing.c -I include/ -o obj/testing.o
+logdb.o: src/logdb.c
+	gcc -Wall -g -c src/logdb.c -I include/ -o obj/logdb.o	
+	
+#testing.o: src/testing.c
+#	gcc -Wall -g -c src/testing.c -I include/ -o obj/testing.o
 
 
 .PHONY: clean
