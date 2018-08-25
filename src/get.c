@@ -20,7 +20,6 @@ int numBuckets(char *archivo){
     return buckets;
 }
 void reemplazarCaracter(char *str, char viejo, char nuevo){
-	//Funcion insegura...No usarla en la practica.
 	while(*str != 0){
 		if(*str == viejo){
 			*str = nuevo;
@@ -40,7 +39,7 @@ hashtable* llenarHashTable(char *archivo){
 			char *clave = strtok(buf,":");
 			char *valor = strtok(NULL,":");
 			put(tabla, strdup(clave), strdup(valor));
-			//Despues de procesar la linea, borramos buffer
+	
 			memset(buf,0, 300);	
 		}
 		}
