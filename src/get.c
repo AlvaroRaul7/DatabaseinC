@@ -8,7 +8,17 @@
 
 
 hashtable *crearHashTable(int numeroBuckets);
-
+int numBuckets(char *archivo){
+	FILE *file = fopen(archivo, "r");
+	int buckets=0;
+	char buf[300] = {0};
+	if(file != NULL){
+		while(fgets(buf, 300, file) != NULL){
+			buckets++;
+		}
+		}
+    return buckets;
+}
 void reemplazarCaracter(char *str, char viejo, char nuevo){
 	//Funcion insegura...No usarla en la practica.
 	while(*str != 0){
@@ -20,7 +30,8 @@ void reemplazarCaracter(char *str, char viejo, char nuevo){
 	}
 }
 hashtable* llenarHashTable(char *archivo){
-	 hashtable *tabla=crearHashTable(100000);
+	int buckets=numBuckets(archivo);
+	hashtable *tabla=crearHashTable(buckets);
 	FILE *file = fopen(archivo, "r");
 	char buf[300] = {0};
 	if(file != NULL){
@@ -40,5 +51,7 @@ hashtable* llenarHashTable(char *archivo){
 char* get_db(char *nombredb,char* clave){
   hashtable *tabla=llenarHashTable(nombredb);
   char* valor=(char* ) get(tabla,clave);
+  borrar(tabla);
   return valor;
 }
+

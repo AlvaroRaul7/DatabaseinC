@@ -25,6 +25,7 @@ void compactardb(char* nombredb){
 			valor=valor+0;
 		
 	}
+	borrar(tablacompactada);
 	
 }
 
