@@ -25,6 +25,8 @@ typedef struct conexionlogbTDA{
 
 
 int creardb(char *nombre_db);			//Recibe un objeto conexion, y crear la db con el nombre dado. Devuelve 1 en exito, 0 en error (por ejemplo,
+
+int abrirdb(char *nombre_db);
 													
 int put_db(char *nombredb, char *clave, char *valor);		//Inserta el elemento clave:valor en la db. Devuelve 1 en exito, 0 en  error.
 

@@ -56,7 +56,11 @@ char *get_val(conexionlogdb *conexion, char *clave){
 		return NULL;
 	}
 	else{
+		if(strcmp(buf,"!@")==0){
+			printf("la clave no existe\n");
+		}else{
 		printf("el valor asociado a la clave %s es: %s\n",clave,buf);
+		}
 		return (char *)buf;
 	}
 }

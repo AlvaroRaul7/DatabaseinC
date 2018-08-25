@@ -75,10 +75,12 @@ int main( int argc, char *argv[]) {
 		printf("Error al inicializar el servidor\n");	
 	}	
 	int clfd=-1;
-	char data[1000]={0};
-	char *respuesta;
-	respuesta=(char*)malloc(1000*(sizeof(char)));
+	
 	while(1){
+		char data[1000]={0};
+		//data=(char*)malloc(1000*(sizeof(char)));
+		char *respuesta;
+		respuesta=(char*)malloc(1000*(sizeof(char)));
 		if(clfd==-1){
 			clfd = accept(sockfd, NULL, NULL);
 		}
@@ -94,13 +96,13 @@ int main( int argc, char *argv[]) {
 
 			char *string=strtok(data,",");
 			char *solicitud=string;
-			
 			string=strtok(NULL,",");
 			char *arg1=string;
 			string=strtok(NULL,",");
 			char *arg2=string;
 			string=strtok(NULL,",");
 			char *arg3=string;
+
 			if(strcmp(solicitud,"crear")==0){
 				int cod=creardb(arg1);
 				if(cod<1){
@@ -110,8 +112,8 @@ int main( int argc, char *argv[]) {
 				}					
 			}
 			else if(strcmp(solicitud,"abrir")==0){
-				int cod=1;
-				//int cod=abrirdb(arg1);
+				
+				int cod=abrirdb(arg1);
 				if(cod<1){
 					strcpy(respuesta,"Error");
 				}else{
@@ -120,6 +122,7 @@ int main( int argc, char *argv[]) {
 					
 			}
 			else if(strcmp(solicitud,"put")==0){
+
 				int cod=put_db(arg1,arg2,arg3);
 				if(cod<1){
 					strcpy(respuesta,"Error");
@@ -129,6 +132,7 @@ int main( int argc, char *argv[]) {
 					
 			}
 			else if(strcmp(solicitud,"get")==0){
+			
 				char* cod=get_db(arg1,arg2);
 				if(cod==NULL){
 					strcpy(respuesta,"Error: no existe la clave");
@@ -138,6 +142,7 @@ int main( int argc, char *argv[]) {
 							
 			}
 			else if(strcmp(solicitud,"eliminar")==0){
+
 				int cod=eliminardb(arg1,arg2);
 
 				if(cod<1){

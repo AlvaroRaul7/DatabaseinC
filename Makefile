@@ -15,11 +15,14 @@ prueba.o: src/prueba.c
 logdb.so: src/conectar_db.c src/crear_db.c src/abrir_db.c src/put_val.c src/get_val.c src/eliminar_.c src/cerrar_db.c src/compactar.c
 	gcc -Wall -fPIC -shared -I include/ src/conectar_db.c src/crear_db.c src/abrir_db.c src/put_val.c src/get_val.c src/eliminar_.c src/cerrar_db.c src/compactar.c -o lib/liblogdb.so
 
-logdb: put.o get.o eliminar.o compactardb.o creardb.o logdb.o
-	gcc -Wall -g  obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/logdb.o -lhashtab -L./lib -Wl,-rpath,./lib  -o bin/logdb
+logdb: abrirdb.o put.o get.o eliminar.o compactardb.o creardb.o logdb.o
+	gcc -Wall -g  obj/abrirdb.o obj/put.o obj/get.o obj/eliminar.o obj/compactardb.o obj/creardb.o obj/logdb.o -lhashtab -L./lib -Wl,-rpath,./lib  -o bin/logdb
 
 put.o: src/put.c
 	gcc -Wall -g -c src/put.c -I include/ -o obj/put.o
+
+abrirdb.o: src/abrirdb.c
+	gcc -Wall -g -c src/abrirdb.c -I include/ -o obj/abrirdb.o
 
 get.o: src/get.c
 	gcc -Wall -g -c src/get.c -I include/ -o obj/get.o
