@@ -33,6 +33,8 @@ int main(int argc, char** argv){
 	put_val(conexion,"xd","hola");
 	put_val(conexion,"ls","xd");
 	compactar(conexion);
+	abrir_db(conexion,"testfile_5000000");
+	compactar(conexion);
 	return 0;
 }
 
