@@ -14,19 +14,23 @@ void compactardb(char* nombredb){
 	int cantvalores=0;
 	char** arrclaves=claves(tablacompactada,&cantclave);
 	char** arrvalores=(char** )valores(tablacompactada,&cantvalores);
-
-	int d=creardb("compactado");
-	if(d==1){
-		printf("Archivo para compactar creado\n");
+	char buf[100];
+	char* compactado="compactado";
+	strcpy(buf,nombredb);
+  	strcat(buf, compactado);
+	int fd = open(buf,O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
+		if(fd < 0){
+		perror("No se pudo crear el archivo\n");
+		
 	}
 	int i=0;
 	for(;i<cantclave;i++){
-			int valor=put_db("compactado",arrclaves[i],arrvalores[i]);
+			int valor=put_db(buf,arrclaves[i],arrvalores[i]);
 			valor=valor+0;
 		
 	}
 	borrar(tablacompactada);
-	
+	close(fd);
 }
 
 

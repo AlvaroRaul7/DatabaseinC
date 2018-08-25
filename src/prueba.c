@@ -31,7 +31,8 @@ int main(int argc, char** argv){
 	eliminar(conexion,"fruta");
 	get_val(conexion,"fruta");
 	put_val(conexion,"xd","hola");
-	//compactar(conexion);
+	put_val(conexion,"ls","xd");
+	compactar(conexion);
 	return 0;
 }
 
