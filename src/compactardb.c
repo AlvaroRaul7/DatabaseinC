@@ -16,7 +16,7 @@ double obtenerTiempoActual(){
 
 void compactardb(char* nombredb){
 	double inicio=obtenerTiempoActual();
-	hashtable *tablacompactada=llenarHashTable(nombredb);
+	hashtable *tablacompactada=llenarHashTableIndice(nombredb);
 	printf("%d\n",tablacompactada->elementos);
 	int cantclave=0;
 	int cantvalores=0;

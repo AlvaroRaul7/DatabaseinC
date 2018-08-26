@@ -36,7 +36,9 @@ int eliminardb(char* nombredb, char *clave);				//Elimina la clave. Devuelve 1 e
 
 void compactardb(char* nombredb);				//Permite forzar la compactacion de la db.
 
-hashtable* llenarHashTable(char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
+hashtable* llenarHashTableIndice(char *archivo);   //Lee un archivo txt y crea una hashtable en memoria donde hacer solicitudes eficientemente
 
 void reemplazarCaracter(char *str, char viejo, char nuevo); 
+
+int numBuckets(char *archivo);
 #endif

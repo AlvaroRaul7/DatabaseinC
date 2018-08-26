@@ -7,7 +7,7 @@
 #include <string.h>
 
 int eliminardb(char* nombredb,char* clave){
-  hashtable* tabla=llenarHashTable(nombredb);
+  hashtable* tabla=llenarHashTableIndice(nombredb);
   put(tabla,clave,"!@");
   put_db(nombredb,clave,"!@");
   return 1;

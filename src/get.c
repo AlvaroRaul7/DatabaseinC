@@ -28,7 +28,7 @@ void reemplazarCaracter(char *str, char viejo, char nuevo){
 		str++;
 	}
 }
-hashtable* llenarHashTable(char *archivo){
+hashtable* llenarHashTableIndice(char *archivo){
 	int buckets=numBuckets(archivo);
 	hashtable *tabla=crearHashTable(buckets);
 	FILE *file = fopen(archivo, "r");
@@ -37,8 +37,8 @@ hashtable* llenarHashTable(char *archivo){
 		while(fgets(buf, 300, file) != NULL){
 			reemplazarCaracter(buf,'\n', 0);
 			char *clave = strtok(buf,":");
-			char *valor = strtok(NULL,":");
-			put(tabla, strdup(clave), strdup(valor));
+			char *indice= strtok(NULL,":");
+			put(tabla, strdup(clave), strdup(indice));
 	
 			memset(buf,0, 300);	
 		}
@@ -48,7 +48,7 @@ hashtable* llenarHashTable(char *archivo){
 
 
 char* get_db(char *nombredb,char* clave){
-  hashtable *tabla=llenarHashTable(nombredb);
+  hashtable *tabla=llenarHashTableIndice(nombredb);
   char* valor=(char* ) get(tabla,clave);
   borrar(tabla);
   return valor;
