@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv){
 	char *ip="127.0.0.1";
-	int puerto=4567;
+	int puerto=4200;
 	conexionlogdb *conexion = conectar_db(ip,puerto);
 	crear_db(conexion,"sandia");
 	crear_db(conexion,"db1");
