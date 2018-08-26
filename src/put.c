@@ -12,7 +12,7 @@
 void escribirHashTableIndice(int fd,char* nombredb,char* clave, char* indice){
 	int buckets=numBuckets(nombredb);
 	hashtable *tablaindice=crearHashTable(buckets);
-    int cantclave=0;
+    	int cantclave=0;
 	int cantvalores=0;
 	put(tablaindice,clave,indice);
 	char** arrclaves=claves(tablaindice,&cantclave);
@@ -43,7 +43,7 @@ int put_db(char* nombredb, char *clave, char *valor){
    	strcat(buf, valor);
 	strcat(buf,"\n");
 	int bytes=write(fd,buf,strlen(buf));
-	char bufnombre[100];
+	char bufnombre[100]={0};
 	strcpy(bufnombre,nombredb);
   	strcat(bufnombre, "indices");
 	int descriptorindice=open(bufnombre, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
@@ -51,14 +51,14 @@ int put_db(char* nombredb, char *clave, char *valor){
 	}  
 	//off_t position=lseek(fd,0,SEEK_CUR);
 	//escribirHashTableIndice(descriptorindice,buf2,clave,"indice");
-	char bufindice[100];
+	char bufindice[100]={0};
 	strcpy(bufindice,clave);
 	strcat(bufindice,":");
-	//strcat(bufindice,"0");
-	//int indice=write(descriptorindice,bufindice,100);
-	//if(indice<0){
-      //  printf("No se pudo escribir\n");
-    //}
+	strcat(bufindice,"0");
+	int indice=write(descriptorindice,bufindice,100);
+	if(indice<0){
+      	printf("No se pudo escribir\n");
+    	}
     if(bytes<0){
         return 0;
     }
