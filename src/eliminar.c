@@ -8,8 +8,9 @@
 
 int eliminardb(char* nombredb,char* clave){
   hashtable* tabla=llenarHashTableIndice(nombredb);
-  put(tabla,clave,"!@");
-  put_db(nombredb,clave,"!@");
+ 
+  put(tabla,clave," @T!");
+  put_db(nombredb,clave," @T!");
   return 1;
 
 }
