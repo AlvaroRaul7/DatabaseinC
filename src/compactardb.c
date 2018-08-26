@@ -26,7 +26,7 @@ void compactardb(char* nombredb){
 	char* compactado="compactado";
 	strcpy(buf,nombredb);
   	strcat(buf, compactado);
-	int fd = open(buf,O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
+	int fd = open(buf,O_RDWR | O_CREAT |O_TRUNC, S_IWUSR | S_IRUSR);
 		if(fd < 0){
 		perror("No se pudo crear el archivo\n");
 		
