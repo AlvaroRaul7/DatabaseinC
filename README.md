@@ -1,35 +1,32 @@
-Descarguen este repositorio, y borren la URL de origin, y use la de su propio repositorio:
-
 git remote remove origin
 
-Luego, añadan la URL de su repositorio:
+Then add your repository URL:
 
-git remote add origin <URL de su repo>
+git remote add origin <URL of your repo>
 
-Descripcion:
+Description:
 
-En este proyecto base tienen los siguientes directorios
+In this base project have the following directories
 
-- bin: ubicacion del ejecutable (logdb)
-- include: archivos cabecera
-    a. Aqui esta la declaracion de estructuras y funciones a implementar.
-       SI NECESITAN CREAR MAS ARCHIVOS CABECERA, PUEDEN HACERLO.
-    b. Se incluyen los siguientes archivos cabecera:
-	 i. hashtable.h
-	ii. logdb.h
-- src: todos los archivo .c iran aqui
-	i. El archivo prueba.c esta vacio. NO deben llenarlo. Este se reemplazara con el codigo del profesor 
-	al probar su proyecto 
-- obj: todos los archivos objetos deben ir a aqui
-- lib: librerias (liblogdb.so, libhashtab.so)
-	i. La libreria libhashtabprof.so es la libreria hashtable del profesor. NO LA USEN. USEN SU PROPIA IMPLEMENTACION (libhashtab.so)
-- Makefile (No borrar las reglas adjuntas).
+- bin: location of the executable (logdb)
+- include: header files
+    a. Here is the declaration of structures and functions to implement.
+       IF YOU NEED TO CREATE MORE HEADER FILES, YOU CAN DO IT.
+    b. The following header files are included:
+Yo. hashtable.h
+ii. logdb.h
+- src: all .c files will go here
+Yo. The test.c file is empty. They should NOT fill it out. This will be replaced with the teacher's code
+when testing your project
+- obj: all object files should go here
+- lib: libraries (liblogdb.so, libhashtab.so)
+Yo. The libhashtabprof.so library is the professor's hashtable library. DO NOT USE IT. USE YOUR OWN IMPLEMENTATION (libhashtab.so)
+- Makefile (Do not delete attached rules).
 
-El objetivo del proyecto es implementar la base de datos que implica:
-	1. El programa logdb, que manejara las solicitudes de los clientes y los archivos de la base de datos.
-	2. La libreria libhashtab.so, que la usaran para el indice.
-	3. La libreria liblogdb.so, que permitira a los programas clientes acceder a los servicios ofrecidos por logdb.
+The objective of the project is to implement the database that implies:
+1. The logdb program, which will handle client requests and database files.
+2. The libhashtab.so library, which will be used for the index.
+3. The liblogdb.so library, which will allow client programs to access the services offered by logdb.
 
-NO SE PERMITE MODIFICAR LOS ARCHIVOS include/hashtable.h ni include/logdb.h. Es posible que el profesor actualice estos archivos durante la duración del proyecto.
-
+YOU ARE NOT ALLOWED TO MODIFY THE FILES include/hashtable.h and include/logdb.h. These files may be updated by the teacher for the duration of the project.
 
